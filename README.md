@@ -7,6 +7,7 @@ The Transaction is facilitated using the Unikrn Wallet checkout process.
 - open the Wordpress Admin (make sure you have WooCommerce installed)
 - Navigate to Plugins / Add New / Upload Plugin
 - Upload the downloaded ZIP - https://www.dropbox.com/s/1hp7rl4cddmco70/8lfhdlpx.png?raw=1
+- **Request API credentials from support@unikoingold.com** or get in touch via https://community.unikrn.com
 
 
 ## Links
