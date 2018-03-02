@@ -13,6 +13,7 @@ function init_unikrn_payment_class() {
 		protected $currency;
 		/** @var Unikrn_API_Client */
 		protected $unikrn_api_client;
+		protected $debug;
 
 		public function __construct() {
 
@@ -39,6 +40,7 @@ function init_unikrn_payment_class() {
 			$this->outbound_secret = $this->get_option( 'outbound_secret' );
 			$this->api_base_url    = $this->get_option( 'api_base_url' );
 			$this->currency        = $this->get_option( 'currency' );
+			$this->debug           = $this->get_option( 'debug' );
 
 			if ( $this->api_base_url && $this->system_name && $this->inbound_secret && $this->outbound_secret ) {
 
@@ -46,7 +48,8 @@ function init_unikrn_payment_class() {
 					$this->api_base_url,
 					$this->system_name,
 					$this->inbound_secret,
-					$this->outbound_secret
+					$this->outbound_secret,
+					$this->debug
 				);
 
 				$this->method_description .= ' - Current Exchange Rate is 1 ' . $this->currency . ' = ' . $this->unikrn_api_client->convert_from_fiat( 100, $this->currency ) . ' UKG';
@@ -77,7 +80,7 @@ function init_unikrn_payment_class() {
 				),
 				'currency'        => array(
 					'title'   => __( 'Currency', 'woocommerce' ),
-					'type'    => 'textarea',
+					'type'    => 'text',
 					'default' => 'USD'
 				),
 				'api_base_url'    => array(
@@ -101,12 +104,18 @@ function init_unikrn_payment_class() {
 					'type'    => 'password',
 					'default' => ''
 				),
+				'debug'         => array(
+					'title'   => __( 'Debug', 'woocommerce' ),
+					'type'    => 'checkbox',
+					'label'   => 'Enable DEBUGGING of Unikrn Wallet Payments - show errors',
+					'default' => 'no'
+				),
 			);
 		}
 
 		public function get_title() {
 			if ( is_checkout() ) {
-				return apply_filters( 'woocommerce_gateway_title', $this->title . ' Total: ' . $this->unikrn_api_client->convert_from_fiat( $this->get_order_total() * 100, $this->currency ) . 'UKG', $this->id );
+				return apply_filters( 'woocommerce_gateway_title', $this->title . '<br>Total: ' . $this->unikrn_api_client->convert_from_fiat( $this->get_order_total() * 100, $this->currency ) . ' UKG', $this->id );
 			}
 			return apply_filters( 'woocommerce_gateway_title', $this->title, $this->id );
 		}
@@ -134,6 +143,7 @@ function init_unikrn_payment_class() {
 			$redirect_url = $this->unikrn_api_client->start(
 				$order_id,
 				$this->get_order_total() * 100,
+				$this->currency,
 				$postback_url,
 				$this->get_return_url( $order ),
 				$this->get_return_url( $order )
@@ -145,7 +155,7 @@ function init_unikrn_payment_class() {
 					'redirect' => $redirect_url
 				);
 			}
-			wc_add_notice( __( 'Payment error:', 'unikrn_payment' ) . 'Please try again later', 'error' );
+			wc_add_notice( __( 'Payment error: ', 'unikrn_payment' ) . 'Please try again later', 'error' );
 			return array(
 				'result'   => 'failure',
 				'redirect' => ''

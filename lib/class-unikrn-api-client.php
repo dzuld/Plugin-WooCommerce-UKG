@@ -6,12 +6,14 @@ class Unikrn_API_Client {
 	protected $system_name;
 	protected $inbound_secret;
 	protected $outbound_secret;
+	protected $debug;
 
-	public function __construct( $api_base_url, $system_name, $inbound_secret, $outbound_secret ) {
+	public function __construct( $api_base_url, $system_name, $inbound_secret, $outbound_secret, $debug ) {
 		$this->api_url         = rtrim( $api_base_url, '/' ) . '/';
 		$this->system_name     = $system_name;
 		$this->inbound_secret  = $inbound_secret;
 		$this->outbound_secret = $outbound_secret;
+		$this->debug           = $debug;
 	}
 
 	public function convert_from_fiat( $cents, $currency ) {
@@ -55,21 +57,24 @@ class Unikrn_API_Client {
 		return $result_data;
 	}
 
-	public function start( $order_id, $usd_cents, $postback_url, $success_url, $error_url ) {
+	public function start( $order_id, $cents, $currency, $postback_url, $success_url, $error_url ) {
 		$result = $this->request(
 			'start',
 			array(
 				'postback_url' => $postback_url,
 				'success_url'  => $success_url,
 				'error_url'    => $error_url,
-				'amount'       => $usd_cents,
-				'currency'     => 'usd',
+				'amount'       => $cents,
+				'currency'     => $currency,
 				'order_id'     => $order_id
 			)
 		);
 
 		if ( $result['success'] ) {
 			return $result['redirect'];
+		} else {
+			if ($this->debug)
+				wc_add_notice( 'DEBUG: '.$result['msg_trans'], 'error' );
 		}
 
 		return false;
