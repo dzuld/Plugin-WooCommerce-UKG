@@ -40,7 +40,7 @@ function init_unikrn_payment_class() {
 			$this->outbound_secret = $this->get_option( 'outbound_secret' );
 			$this->api_base_url    = $this->get_option( 'api_base_url' );
 			$this->currency        = $this->get_option( 'currency' );
-			$this->debug           = $this->get_option( 'debug' );
+			$this->debug           = $this->get_option( 'debug' ) == '1';
 
 			if ( $this->api_base_url && $this->system_name && $this->inbound_secret && $this->outbound_secret ) {
 
