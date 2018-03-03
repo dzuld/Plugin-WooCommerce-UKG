@@ -3,8 +3,8 @@
  * Plugin Name: WooCommerce Unikrn Gateway
  * Plugin URI: https://github.com/unikoingold/Plugin-WooCommerce-UKG/
  * Description: WooCommerce Payment Gateway to accept UnikoinGold (UKG)
- * Version: 1.0.1
- * Author: Unikrn, Tractusonline
+ * Version: 1.0.2
+ * Author: Unikrn & Tractusonline
  * Author URI: https://unikoingold.com
  * License: GPL2
  * License URI:  https://www.gnu.org/licenses/gpl-2.0.html
