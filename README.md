@@ -4,7 +4,7 @@ This plugin for https://woocommerce.com/ (running on https://wordpress.org/ ) a
 The Transaction is facilitated using the Unikrn Wallet checkout process.
 
 # Install
-- download as ZIP - https://www.dropbox.com/s/kaypqfxh5wr3pl8/11pqxplq.png?raw=1
+- download as ZIP - https://github.com/unikoingold/Plugin-WooCommerce-UKG/archive/master.zip
 - open the Wordpress Admin (make sure you have WooCommerce installed)
 - Navigate to Plugins / Add New / Upload Plugin
 - Upload the downloaded ZIP - https://www.dropbox.com/s/1hp7rl4cddmco70/8lfhdlpx.png?raw=1
